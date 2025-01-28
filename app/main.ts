@@ -6,5 +6,6 @@ const rl = createInterface({
 });
 
 rl.question("$ ", (answer) => {
+  console.log(`invalid_command: command not found`);
   rl.close();
 });
