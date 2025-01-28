@@ -6,6 +6,6 @@ const rl = createInterface({
 });
 
 rl.question("$ ", (answer) => {
-  console.log(`invalid_apple_command: command not found`);
+  console.log(`${answer}: command not found`);
   rl.close();
 });
