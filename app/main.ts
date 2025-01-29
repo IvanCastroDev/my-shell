@@ -1,3 +1,4 @@
+import { exit } from "process";
 import { createInterface } from "readline";
 
 const rl = createInterface({
@@ -5,15 +6,28 @@ const rl = createInterface({
   output: process.stdout,
 });
 
+const validCommands = {
+  "ls": "ls",
+};
+
 const readUserInput = async () => {
-  return new Promise<void>((resolve) => {
+  return new Promise<void>((resolve, reject) => {
     rl.question("$ ", (answer) => {
+      if (answer === "exit") {
+        rl.close();
+        reject("exit");
+      };
+
       console.log(`${answer}: command not found`);
-      resolve();
+      reject('exit')
     });
   })
 }
 
 while (true) {
-  await readUserInput();
+  try {
+    await readUserInput();
+  } catch (reason) {
+    throw exit(0)
+  }
 }
