@@ -11,22 +11,34 @@ const exitFunction = (reject: (reason?: any) => void, code: string) => {
   reject(code)
 };
 
+const echo = (message: string) => {
+  console.log(message);
+}
+
 const commands = {
   'exit': exitFunction,
+  'echo': echo
 }
 
 const readUserInput = async () => {
   return new Promise<void>((resolve, reject) => {
     rl.question("$ ", (answer) => {
-      const args = answer.split(" ");
-      answer = args[0];
+      const command = answer.split(" ")[0];
+      const args = answer.split(" ").length > 1 ? answer.split(" ").slice(1, answer.length) : [''];
 
-      if (answer === "exit") {
-        commands[answer](reject, args[1]);
-      }else {
-        console.log(`${answer}: command not found`);
-        resolve();
+      switch (command) {
+        case 'exit':
+          commands[command](reject, args[1]);
+          break;
+        case 'echo':
+          commands[command](args.join(" "));
+          break;
+        default:
+          console.log(`${command}: Command not found`);
+          break;
       }
+
+      resolve();
     });
   })
 }
