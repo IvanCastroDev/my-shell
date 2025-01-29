@@ -6,20 +6,18 @@ const rl = createInterface({
   output: process.stdout,
 });
 
-const validCommands = {
-  "ls": "ls",
-};
-
 const readUserInput = async () => {
   return new Promise<void>((resolve, reject) => {
     rl.question("$ ", (answer) => {
-      if (answer === "exit") {
+      const commands = answer.split(" ");
+      
+      if (commands[0] === "exit") {
         rl.close();
-        reject("exit");
-      };
-
-      console.log(`${answer}: command not found`);
-      reject('exit')
+        reject(commands[1]);
+      }else {
+        console.log(`${answer}: command not found`);
+        resolve();
+      }
     });
   })
 }
