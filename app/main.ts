@@ -34,7 +34,7 @@ const readUserInput = async () => {
           commands[command](args.join(" "));
           break;
         default:
-          console.log(`${command}: Command not found`);
+          console.log(`${command}: command not found`);
           break;
       }
 
