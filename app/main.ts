@@ -6,14 +6,23 @@ const rl = createInterface({
   output: process.stdout,
 });
 
+const exitFunction = (reject: (reason?: any) => void, code: string) => {
+  rl.close();
+  reject(code)
+};
+
+const commands = {
+  'exit': exitFunction,
+}
+
 const readUserInput = async () => {
   return new Promise<void>((resolve, reject) => {
     rl.question("$ ", (answer) => {
-      const commands = answer.split(" ");
-      
-      if (commands[0] === "exit") {
-        rl.close();
-        reject(commands[1]);
+      const args = answer.split(" ");
+      answer = args[0];
+
+      if (answer === "exit") {
+        commands[answer](reject, args[1]);
       }else {
         console.log(`${answer}: command not found`);
         resolve();
