@@ -24,6 +24,7 @@ const typeFunction = (args: string[]) => {
 }
 
 const commands: { [key: string]: CommandFunction } = {
+  'exit': (args: string[]) => {},
   'echo': echo,
   'type': typeFunction
 }
