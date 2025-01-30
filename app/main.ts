@@ -5,6 +5,8 @@ import { createInterface } from "readline";
 type CommandFunction = (args: string[]) => void;
 
 // Global variables
+const PATH = process.env.PATH ? process.env.PATH : '';
+
 const rl = createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -16,10 +18,25 @@ const echo = (args: string[]) => {
 }
 
 const typeFunction = (args: string[]) => {
+  let paths = PATH.split(':');
+
   if (commands[args.join(' ')] !== undefined) {
     console.log(`${args} is a shell builtin`);
+    return;
+  } else if (paths.map((path: string) => path.split('/').map((bin: string) => bin === args.join(' ')).includes(true)).includes(true)) {
+    let commandPath = '';
+
+    paths.forEach((path: string) => {
+      if (path.split('/').includes(args.join(' '))) {
+        commandPath = path;
+      }
+    });
+
+    console.log(`${args.join(' ')} is ${commandPath}`);
+    return;
   } else {
     console.log(`${args.join(' ')} not found`);
+    return;
   }
 }
 
