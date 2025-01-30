@@ -36,6 +36,7 @@ const typeFunction = (args: string[]) => {
     console.log(`${arg} is ${commandPath}`);
     return;
   } else {
+    console.log(PATH);
     console.log(`${arg} not found`);
     return;
   }
