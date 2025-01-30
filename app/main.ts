@@ -73,7 +73,6 @@ const readUserInput = async () => {
 
 while (true) {
   try {
-    console.log(PATH);
     await readUserInput();
   } catch (code: any) {
     throw exit(code);
