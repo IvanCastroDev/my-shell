@@ -5,7 +5,7 @@ import { createInterface } from "readline";
 type CommandFunction = (args: string[]) => void;
 
 // Global variables
-const PATH = process.env.PATH ? process.env.PATH : '/usr/bin:/usr/local/bin';
+const PATH = /* process.env.PATH ? process.env.PATH : */ '/usr/bin:/usr/local/bin:/bin/cat';
 
 const rl = createInterface({
   input: process.stdin,
@@ -19,23 +19,24 @@ const echo = (args: string[]) => {
 
 const typeFunction = (args: string[]) => {
   let paths = PATH.split(':');
+  let arg = args.join('');
 
-  if (commands[args.join(' ')] !== undefined) {
+  if (commands[arg] !== undefined) {
     console.log(`${args} is a shell builtin`);
     return;
-  } else if (paths.map((path: string) => path.split('/').map((bin: string) => bin === args.join(' ')).includes(true)).includes(true)) {
+  } else if (paths.map((path: string) => path.split('/').map((bin: string) => bin === arg).includes(true)).includes(true)) {
     let commandPath = '';
 
     paths.forEach((path: string) => {
-      if (path.split('/').includes(args.join(' '))) {
+      if (path.split('/').includes(arg)) {
         commandPath = path;
       }
     });
 
-    console.log(`${args.join(' ')} is ${commandPath}`);
+    console.log(`${arg} is ${commandPath}`);
     return;
   } else {
-    console.log(`${args.join(' ')} not found`);
+    console.log(`${arg} not found`);
     return;
   }
 }
