@@ -5,8 +5,6 @@ import { createInterface } from "readline";
 type CommandFunction = (args: string[]) => void;
 
 // Global variables
-const PATH = process.env.PATH ? process.env.PATH : '/usr/bin:/usr/local/bin:/bin/cat';
-
 const rl = createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -18,7 +16,8 @@ const echo = (args: string[]) => {
 }
 
 const typeFunction = (args: string[]) => {
-  let paths = PATH.split(':');
+  const PATH = process.env.PATH ? process.env.PATH : '';
+  let paths = PATH.split(':') ?? [];
   let arg = args.join('');
 
   if (commands[arg] !== undefined) {
