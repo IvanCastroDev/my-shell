@@ -5,7 +5,7 @@ import { createInterface } from "readline";
 type CommandFunction = (args: string[]) => void;
 
 // Global variables
-const PATH = process.env.PATH ? process.env.PATH : '';
+const PATH = process.env.PATH ? process.env.PATH : '/usr/bin:/usr/local/bin';
 
 const rl = createInterface({
   input: process.stdin,
