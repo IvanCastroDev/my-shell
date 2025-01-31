@@ -16,8 +16,8 @@ const echo = (args: string[]) => {
 }
 
 const typeFunction = (args: string[]) => {
-  const PATH = process.env.PATH || '/usr/bin:/usr/local/bin';;
-  let paths = PATH.split(':') ?? [];
+  let PATH = process.env.PATH || '/usr/bin:/usr/local/bin';;
+  let paths = process.platform.includes('win32') ? PATH.split(';') : PATH.split(':') ?? [];
   let arg = args.join('');
 
   if (commands[arg] !== undefined) {
