@@ -31,10 +31,8 @@ const typeFunction = (args: string[]) => {
   
   if (foundPath) {
     console.log(`${arg} is ${foundPath}/${arg}`);
-    return;
   } else {
     console.log(`${arg} not found`);
-    return;
   }
 }
 
