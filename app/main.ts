@@ -16,23 +16,21 @@ const echo = (args: string[]) => {
 }
 
 const typeFunction = (args: string[]) => {
-  const PATH = process.env.PATH ? process.env.PATH : '';
+  const PATH = process.env.PATH || '/usr/bin:/usr/local/bin';;
   let paths = PATH.split(':') ?? [];
   let arg = args.join('');
 
   if (commands[arg] !== undefined) {
     console.log(`${args} is a shell builtin`);
     return;
-  } else if (paths.map((path: string) => path.split('/').map((bin: string) => bin === arg).includes(true)).includes(true)) {
-    let commandPath = '';
-
-    paths.forEach((path: string) => {
-      if (path.split('/').includes(arg)) {
-        commandPath = path;
-      }
-    });
-
-    console.log(`${arg} is ${commandPath}`);
+  }
+  
+  const foundPath = paths.find((path: string) => {
+    return require('fs').existsSync(`${path}/${arg}`);
+  })
+  
+  if (foundPath) {
+    console.log(`${arg} is ${foundPath}/${arg}`);
     return;
   } else {
     console.log(`${arg} not found`);
