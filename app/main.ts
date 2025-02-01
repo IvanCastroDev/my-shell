@@ -57,6 +57,7 @@ const exectInternalCommand = (command: string) => {
       console.log(err);
       return;
     }
+    console.log(`$ ${command}`)
     stdout.split('\n').forEach(line => console.log(line));
   });
 }
