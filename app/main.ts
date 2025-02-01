@@ -1,5 +1,3 @@
-import { execSync } from "child_process";
-import { exit } from "process";
 import { createInterface } from "readline";
 
 // Types
@@ -22,9 +20,10 @@ const typeFunction = (args: string[]) => {
   
   if (foundPath) {
     console.log(`${arg} is ${foundPath}/${arg}`);
-  } else {
-    console.log(`${arg} not found`);
+    return;
   }
+
+  console.log(`${arg} not found`);
 };
 
 // Global variables
@@ -34,7 +33,7 @@ const rl = createInterface({
 });
 
 const commands: { [key: string]: CommandFunction } = {
-  exit: (args: string[]) => exit(0),
+  exit: (args: string[]) => process.exit(0),
   echo: echo,
   type: typeFunction
 };
@@ -50,7 +49,9 @@ const commandExists = (command: string): string | void => {
   });
 }
 
-const exectInternalCommand = (command: string) => {
+const exectInternalCommand = async (command: string) => {
+  const { execSync } = await import('child_process');
+
   const result = execSync(command).subarray(0, -1);
 
   console.log(result.toString());
@@ -82,7 +83,6 @@ const main = () => {
     });
   });
 };
-
 
 while (true) {
   await main();
