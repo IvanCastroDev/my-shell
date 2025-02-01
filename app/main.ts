@@ -50,6 +50,7 @@ const commandExists = (command: string): string | void => {
 }
 
 const exectInternalCommand = (command: string) => {
+  console.clear();
   exec(command, (err, stdout, stderr) => {
     if (err) {
       console.log(err);
