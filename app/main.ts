@@ -1,4 +1,4 @@
-import { exec } from "child_process";
+import { exec, execSync } from "child_process";
 import { exit } from "process";
 import { createInterface } from "readline";
 
@@ -8,7 +8,7 @@ type CommandFunction = (args: string[]) => void;
 // Functions for the shell commands
 const echo = (args: string[]) => {
   console.log(args.join(' '));
-}
+};
 
 const typeFunction = (args: string[]) => {
   let arg = args[0];
@@ -25,7 +25,7 @@ const typeFunction = (args: string[]) => {
   } else {
     console.log(`${arg} not found`);
   }
-}
+};
 
 // Global variables
 const rl = createInterface({
@@ -34,15 +34,15 @@ const rl = createInterface({
 });
 
 const commands: { [key: string]: CommandFunction } = {
-  'exit': (args: string[]) => {},
-  'echo': echo,
-  'type': typeFunction
-}
+  exit: (args: string[]) => exit(0),
+  echo: echo,
+  type: typeFunction
+};
 
 // Helpers
 const commandExists = (command: string): string | void => {
   let separator = process.platform === 'win32' ? ';' : ':';
-  let PATH = process.env.PATH || '/usr/bin:/usr/local/bin';
+  let PATH = process.env.PATH || '';
   let paths = PATH.split(separator) ?? [];
 
   return paths.find((path: string) => {
@@ -51,55 +51,43 @@ const commandExists = (command: string): string | void => {
 }
 
 const exectInternalCommand = (command: string) => {
-  exec(command, (err, stdout, stderr) => {
-    console.clear();
+  exec(command, (err, stdout) => {
     if (err) {
-      console.log(err);
+      console.error(err);
       return;
     }
-    console.log(`$ `+ command)
-    stdout.split('\n').forEach(line => console.log(line));
-  });
-}
-
-// Main loop
-const main = async () => {
-  return new Promise<void>((resolve, reject) => {
-    rl.question("$ ", (answer) => {
-      const command = answer.split(" ")[0];
-      const args = answer.split(" ").length > 1 ? answer.split(" ").slice(1, answer.length) : [];
-
-      if (command === 'exit') {
-        rl.close();
-        reject(args.length > 0 ? parseInt(args.join(' ')) : 0);
-        return;
-      };
-
-      const foundPath = commandExists(command);
-
-      if (foundPath) {
-        exectInternalCommand(`"${command}" ${args.join(' ')}`);
-        resolve();
-        return;
-      }
-
-      if (!commands[command]) {
-        console.log(`${command}: command not found`);
-        resolve();
-        return;
-      };
-
-      commands[command](args);
-
-      resolve();
-    });
+    rl.write(stdout);
   })
 }
 
+// Main loop
+const main = () => {
+  return new Promise<void>((resolve) => {
+    rl.question("$ ", (answer) => {
+      const [command, ...args] = answer.split(" ");
+  
+      if (commands[command]) {
+        commands[command](args);
+        resolve()
+        return;
+      };
+
+      let foundPath = commandExists(command);
+  
+      if (foundPath) {
+        exectInternalCommand(`"${command}" ${args.join(' ')}`);
+        resolve()
+        return;
+      };
+
+      console.log(`${command}: command not found`);
+  
+      resolve();
+    });
+  });
+};
+
+
 while (true) {
-  try {
-    await main();
-  } catch (code: any) {
-    throw exit(code);
-  }
+  await main();
 }
