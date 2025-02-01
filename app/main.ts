@@ -75,7 +75,7 @@ const main = async () => {
       const foundPath = commandExists(command);
 
       if (foundPath) {
-        exectInternalCommand(`"${foundPath}/${command}" ${args.join(' ')}`);
+        exectInternalCommand(`"${command}" ${args.join(' ')}`);
         resolve();
         return;
       }
