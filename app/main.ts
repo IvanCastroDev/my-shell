@@ -41,8 +41,9 @@ const commands: { [key: string]: CommandFunction } = {
 
 // Helpers
 const commandExists = (command: string): string | void => {
+  let separator = process.platform === 'win32' ? ';' : ':';
   let PATH = process.env.PATH || '/usr/bin:/usr/local/bin';
-  let paths = process.platform.includes('win') ? PATH.split(';') : PATH.split(':') ?? [];
+  let paths = PATH.split(separator) ?? [];
 
   return paths.find((path: string) => {
     return require('fs').existsSync(`${path}/${command}`);
