@@ -58,6 +58,7 @@ const exectInternalCommand = (command: string) => {
       return;
     }
     console.log(stdout);
+    console.log(stderr);
   });
 }
 
