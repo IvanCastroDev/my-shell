@@ -1,4 +1,4 @@
-import { exec, execSync } from "child_process";
+import { execSync } from "child_process";
 import { exit } from "process";
 import { createInterface } from "readline";
 
@@ -51,13 +51,9 @@ const commandExists = (command: string): string | void => {
 }
 
 const exectInternalCommand = (command: string) => {
-  exec(command, (err, stdout) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    rl.write(stdout);
-  })
+  const result = execSync(command).subarray(0,1);
+
+  console.log(result.toString());
 }
 
 // Main loop
