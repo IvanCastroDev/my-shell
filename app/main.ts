@@ -51,7 +51,7 @@ const commandExists = (command: string): string | void => {
 }
 
 const exectInternalCommand = (command: string) => {
-  const result = execSync(command).subarray(0,1);
+  const result = execSync(command).subarray(0, -1);
 
   console.log(result.toString());
 }
