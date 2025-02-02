@@ -31,10 +31,9 @@ const pwd = (args: string[]) => {
 
 const changeDirectory = async (args: string[]) => {
     try {
-        const result = await execInternalCommand(`cd ${args.join(' ')} && pwd`)
-        Directory.setDirectory(result);
+        Directory.setDirectory(await execInternalCommand(`cd ${args.join(' ')} && pwd`));
     } catch (err: any) {
-        console.log(`cd ${args.join(' ')}: No such file or directory`)
+        console.log(`cd:${err.stderr.split('cd:')[1]}`);
     };
 };
 

@@ -11,5 +11,5 @@ export const commandExists = (command: string): string | void => {
   }
   
 export const execInternalCommand = async (command: string) => {
-    return execSync(command).subarray(0, -1).toString();
+    return execSync(command, { encoding: 'utf8' });
 }
