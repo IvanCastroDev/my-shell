@@ -12,4 +12,4 @@ export class directory {
     getDirectory() {
       return this.dir;  
     };
-}
+};

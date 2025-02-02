@@ -1,6 +1,7 @@
 import { typeCommand } from "../types";
 import { commandExists } from "../helpers";
 import { Directory } from "../constants";
+import { execInternalCommand } from "../helpers";
 
 const echo = (args: string[]) => {
   console.log(args.join(' '));
@@ -28,8 +29,17 @@ const pwd = (args: string[]) => {
   console.log(Directory.getDirectory());
 };
 
-const changeDirectory = (args: string[]) => {
-    const newDir = args[0];
+const changeDirectory = async (args: string[]) => {
+    try {
+        const result = await execInternalCommand(`cd ${args.join(' ')} && pwd`)
+        Directory.setDirectory(result);
+    } catch (err: any) {
+        console.log(`cd ${args.join(' ')}: No such file or directory`)
+    };
+};
+
+const listSubdirectories = async (args: string[]) => {
+    
 };
 
 const commands: { [key: string]: typeCommand } = {

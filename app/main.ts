@@ -1,11 +1,11 @@
 import { rl } from "./constants";
 import commands from "./commands";
-import { commandExists, exectInternalCommand } from "./helpers";
+import { commandExists, execInternalCommand } from "./helpers";
 
 // Main loop
 const main = () => {
   return new Promise<void>((resolve) => {
-    rl.question("$ ", (answer) => {
+    rl.question("$ ", async (answer) => {
       const [command, ...args] = answer.split(" ");
   
       if (commands[command]) {
@@ -17,7 +17,7 @@ const main = () => {
       let foundPath = commandExists(command);
   
       if (foundPath) {
-        exectInternalCommand(`"${command}" ${args.join(' ')}`);
+        console.log(await execInternalCommand(`"${command}" ${args.join(' ')}`));
         resolve()
         return;
       };

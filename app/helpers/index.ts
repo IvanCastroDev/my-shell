@@ -10,8 +10,6 @@ export const commandExists = (command: string): string | void => {
     });
   }
   
-export const exectInternalCommand = async (command: string) => {
-    const result = execSync(command).subarray(0, -1);
-
-    console.log(result.toString());
+export const execInternalCommand = async (command: string) => {
+    return execSync(command).subarray(0, -1).toString();
 }
