@@ -30,11 +30,11 @@ const pwd = (args: string[]) => {
 };
 
 const changeDirectory = async (args: string[]) => {
-    try {
-        Directory.setDirectory(await execInternalCommand(`cd ${args.join(' ')} && pwd`));
-    } catch (err: any) {
-        console.log(`cd:${err.stderr.split('cd:')[1]}`);
-    };
+  try {
+      Directory.setDirectory(await execInternalCommand(`cd ${Directory.getDirectory()} && cd ${args.join(' ')} && pwd`));
+  } catch (err: any) { 
+      console.log(`cd:${err.stderr.split('cd:')[1]}`);
+  };
 };
 
 const listSubdirectories = async (args: string[]) => {
@@ -42,11 +42,11 @@ const listSubdirectories = async (args: string[]) => {
 };
 
 const commands: { [key: string]: typeCommand } = {
-    exit: (args: string[]) => process.exit(0),
-    echo: echo,
-    type: typeFunction,
-    pwd: pwd,
-    cd: changeDirectory
+  exit: (args: string[]) => process.exit(0),
+  echo: echo,
+  type: typeFunction,
+  pwd: pwd,
+  cd: changeDirectory
 };
 
 export default commands;
