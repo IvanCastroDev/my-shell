@@ -1,0 +1,1 @@
+export type typeCommand = (args: string[]) => void;

@@ -1,61 +1,6 @@
-import { createInterface } from "readline";
-
-// Types
-type CommandFunction = (args: string[]) => void;
-
-// Functions for the shell commands
-const echo = (args: string[]) => {
-  console.log(args.join(' '));
-};
-
-const typeFunction = (args: string[]) => {
-  let arg = args[0];
-
-  if (commands[arg] !== undefined) {
-    console.log(`${args} is a shell builtin`);
-    return;
-  }
-
-  const foundPath = commandExists(arg);
-  
-  if (foundPath) {
-    console.log(`${arg} is ${foundPath}/${arg}`);
-    return;
-  }
-
-  console.log(`${arg} not found`);
-};
-
-// Global variables
-const rl = createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-const commands: { [key: string]: CommandFunction } = {
-  exit: (args: string[]) => process.exit(0),
-  echo: echo,
-  type: typeFunction
-};
-
-// Helpers
-const commandExists = (command: string): string | void => {
-  let separator = process.platform === 'win32' ? ';' : ':';
-  let PATH = process.env.PATH || '';
-  let paths = PATH.split(separator) ?? [];
-
-  return paths.find((path: string) => {
-    return require('fs').existsSync(`${path}/${command}`);
-  });
-}
-
-const exectInternalCommand = async (command: string) => {
-  const { execSync } = await import('child_process');
-
-  const result = execSync(command).subarray(0, -1);
-
-  console.log(result.toString());
-}
+import { rl } from "./constants";
+import commands from "./commands";
+import { commandExists, exectInternalCommand } from "./helpers";
 
 // Main loop
 const main = () => {
