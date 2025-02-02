@@ -16,7 +16,7 @@ const typeFunction = (args: string[]) => {
   }
 
   const foundPath = commandExists(arg);
-  
+
   if (foundPath) {
     console.log(`${arg} is ${foundPath}/${arg}`);
     return;
@@ -31,14 +31,16 @@ const pwd = (args: string[]) => {
 
 const changeDirectory = async (args: string[]) => {
   try {
-      Directory.setDirectory(await execInternalCommand(`cd ${Directory.getDirectory()} && cd ${args.join(' ')} && pwd`));
-  } catch (err: any) { 
-      console.log(`cd:${err.stderr.split('cd:')[1]}`);
+    Directory.setDirectory(await execInternalCommand(`cd ${Directory.getDirectory()} && cd ${args.join(' ')} && pwd`));
+    console.log(Directory.getDirectory());
+    return;
+  } catch (err: any) {
+    console.log(`cd:${err.stderr.split('cd:')[1]}`);
   };
 };
 
 const listSubdirectories = async (args: string[]) => {
-    
+
 };
 
 const commands: { [key: string]: typeCommand } = {
