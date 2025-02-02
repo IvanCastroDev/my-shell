@@ -32,7 +32,6 @@ const pwd = (args: string[]) => {
 const changeDirectory = async (args: string[]) => {
   try {
     Directory.setDirectory(await execInternalCommand(`cd ${Directory.getDirectory()} && cd ${args.join(' ')} && pwd`));
-    console.log(Directory.getDirectory());
     return;
   } catch (err: any) {
     console.log(`cd:${err.stderr.split('cd:')[1]}`);
