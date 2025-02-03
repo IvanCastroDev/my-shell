@@ -1,4 +1,4 @@
-const { execSync } = await import('child_process');
+import { execSync } from 'child_process';
 
 export const commandExists = (command: string): string | void => {
     let separator = process.platform === 'win32' ? ';' : ':';
