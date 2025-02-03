@@ -1,12 +1,19 @@
 import { rl } from "./constants";
 import commands from "./commands";
 import { commandExists, execInternalCommand } from "./helpers";
+import { singleQuoteRegex } from "./constants";
 
 // Main loop
 const main = () => {
   return new Promise<void>((resolve) => {
     rl.question("$ ", async (answer) => {
       const [command, ...args] = answer.split(" ");
+
+      for (let arg of args) {
+        if (arg.match(singleQuoteRegex)) {
+          args[args.indexOf(arg)] = arg.replace(/'/g, '');
+        }
+      };
   
       if (commands[command]) {
         commands[command](args);
