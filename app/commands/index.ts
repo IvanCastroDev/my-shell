@@ -4,7 +4,9 @@ import { chdir, cwd, exit } from "process";
 import { OS } from "../constants";
 
 const echo = (args: string[]) => {
-  console.log(args.join(' '));
+  for (let arg of args) {
+    console.log(arg);
+  }
 };
 
 const typeFunction = (args: string[]) => {
