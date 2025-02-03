@@ -30,9 +30,9 @@ const pwd = (args: string[]) => {
 
 const changeDirectory = async (args: string[]) => {
   try {
-    chdir(args.join(' '));
+    chdir(args[0]);
   } catch (err: any) {
-    console.log(err.message);
+    console.log(`cd: ${args[0]}: ${err.message}`);
   };
 };
 
