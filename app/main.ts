@@ -10,7 +10,7 @@ const main = () => {
   
       if (commands[command]) {
         commands[command](args);
-        resolve()
+        resolve();
         return;
       };
 
