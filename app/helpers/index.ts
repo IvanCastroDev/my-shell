@@ -1,7 +1,8 @@
 import { execSync } from 'child_process';
+import { OS } from '../constants';
 
 export const commandExists = (command: string): string | void => {
-    let separator = process.platform === 'win32' ? ';' : ':';
+    let separator = OS === 'win32' ? ';' : ':';
     let PATH = process.env.PATH || '';
     let paths = PATH.split(separator) ?? [];
   

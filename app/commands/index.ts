@@ -1,6 +1,7 @@
 import { typeCommand } from "../types";
 import { commandExists } from "../helpers";
 import { chdir, cwd, exit } from "process";
+import { OS } from "../constants";
 
 const echo = (args: string[]) => {
   console.log(args.join(' '));
@@ -29,6 +30,10 @@ const pwd = (args: string[]) => {
 };
 
 const changeDirectory = async (args: string[]) => {
+  if (OS === 'win32' && args[0].includes('~')) {
+    args[0] = args[0].replace('~', process.env.USERPROFILE ?? '');
+  };
+
   try {
     chdir(args[0]);
   } catch (err: any) {
