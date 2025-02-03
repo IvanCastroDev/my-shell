@@ -31,7 +31,7 @@ const pwd = (args: string[]) => {
 
 const changeDirectory = async (args: string[]) => {
   if (args[0].includes('~')) {
-    args[0] = args[0].replace('~', process.env.USERPROFILE ?? '');
+    args[0] = args[0].replace('~', process.env.HOME ?? '');
   };
 
   try {
