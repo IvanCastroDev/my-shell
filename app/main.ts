@@ -10,9 +10,7 @@ const main = () => {
       const [command, ...args] = answer.split(" ");
 
       for (let arg of args) {
-        if (arg.match(singleQuoteRegex)) {
-          args[args.indexOf(arg)] = arg.replace(/'/g, '');
-        }
+        args[args.indexOf(arg)] = arg.replace(/'/g, '');
       };
   
       if (commands[command]) {
