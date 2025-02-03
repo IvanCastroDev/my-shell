@@ -17,8 +17,7 @@ const main = () => {
       let foundPath = commandExists(command);
   
       if (foundPath) {
-        let result = await execInternalCommand(`"${command}" ${args.join(' ')}`);
-        console.log(result.replace(/\n$/, ''));
+        console.log((await execInternalCommand(`"${command}" ${args.join(' ')}`)).replace(/\n$/, ''));
         resolve()
         return;
       };
