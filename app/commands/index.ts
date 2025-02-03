@@ -1,7 +1,6 @@
 import { typeCommand } from "../types";
 import { commandExists } from "../helpers";
-import { Directory } from "../constants";
-import { execInternalCommand } from "../helpers";
+import { chdir, cwd, exit } from "process";
 
 const echo = (args: string[]) => {
   console.log(args.join(' '));
@@ -26,15 +25,14 @@ const typeFunction = (args: string[]) => {
 };
 
 const pwd = (args: string[]) => {
-  console.log(Directory.getDirectory());
+  console.log(cwd());
 };
 
 const changeDirectory = async (args: string[]) => {
   try {
-    Directory.setDirectory(await execInternalCommand(`cd ${Directory.getDirectory()} && cd ${args.join(' ')} && pwd`));
-    return;
+    chdir(args.join(' '));
   } catch (err: any) {
-    console.log(`cd:${err.stderr.split('cd:')[1]}`);
+    console.log(err.message);
   };
 };
 
@@ -43,7 +41,7 @@ const listSubdirectories = async (args: string[]) => {
 };
 
 const commands: { [key: string]: typeCommand } = {
-  exit: (args: string[]) => process.exit(0),
+  exit: (args: string[]) => exit(0),
   echo: echo,
   type: typeFunction,
   pwd: pwd,
