@@ -30,7 +30,7 @@ const pwd = (args: string[]) => {
 };
 
 const changeDirectory = async (args: string[]) => {
-  if (OS === 'win32' && args[0].includes('~')) {
+  if (args[0].includes('~')) {
     args[0] = args[0].replace('~', process.env.USERPROFILE ?? '');
   };
 
