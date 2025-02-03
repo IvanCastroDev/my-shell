@@ -1,7 +1,6 @@
 import { rl } from "./constants";
 import commands from "./commands";
 import { commandExists, execInternalCommand } from "./helpers";
-import { execSync } from "child_process";
 
 // Main loop
 const main = () => {
@@ -18,8 +17,8 @@ const main = () => {
       let foundPath = commandExists(command);
   
       if (foundPath) {
-        const result = await execSync(command).subarray(0, -1);
-        console.log(result.toString());
+        let result = await execInternalCommand(`"${command}" ${args.join(' ')}`);
+        console.log(result.replace(/\n$/, ''));
         resolve()
         return;
       };
