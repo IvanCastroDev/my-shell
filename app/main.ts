@@ -18,7 +18,7 @@ const main = () => {
       let foundPath = commandExists(command);
   
       if (foundPath) {
-        const result = execSync(command).subarray(0, -1);
+        const result = await execSync(command).subarray(0, -1);
         console.log(result.toString());
         resolve()
         return;
