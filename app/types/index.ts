@@ -1,1 +1,1 @@
-export type typeCommand = (args: string[]) => void;
+export type typeCommand = (args: string) => void;

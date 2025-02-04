@@ -1,10 +1,15 @@
 import { execSync } from 'child_process';
 import { OS } from '../constants';
 
-export const formatCommand = (answer: string): string[] => {
-  const [command, ...args] = [...answer.matchAll(/"([^"]*)"|'([^']*)'|(\S+)/g)].map(m => m[1] || m[2] || m[3]);
+export const formatCommand = (answer: string) => {
+  const cleanAnswer = answer.replace(/('[^']*'|"[^"]*")|(  +)/g, (m, quotes, space) => quotes ? quotes : ' ');
+  const command = cleanAnswer.split(' ')[0];
+  const args = cleanAnswer.split(`${command} `)[1];
 
-  return [command, ...args];
+  return {
+    command,
+    args
+  };
 };
 
 export const commandExists = (command: string): string | void => {

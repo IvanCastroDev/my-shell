@@ -7,7 +7,7 @@ import { formatCommand } from "./helpers";
 const main = () => {
   return new Promise<void>((resolve) => {
     rl.question("$ ", async (answer) => {
-      const [command, ...args] = formatCommand(answer);
+      const {command, args} = formatCommand(answer);
 
       if (commands[command]) {
         commands[command](args);
@@ -18,7 +18,7 @@ const main = () => {
       let foundPath = commandExists(command);
   
       if (foundPath) {
-        console.log((await execInternalCommand(`"${command}" ${args.join(' ')}`)).replace(/\n$/, ''));
+        console.log((await execInternalCommand(`"${command}" ${args}`)).replace(/\n$/, ''));
         resolve()
         return;
       };
