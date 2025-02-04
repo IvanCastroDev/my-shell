@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 import { OS } from '../constants';
 
-export const formatCommand = (answer: string) => {
+export const formatCommand = (answer: string): {command: string, args: string} => {
   const cleanAnswer = answer.replace(/('[^']*'|"[^"]*")|(  +)/g, (m, quotes, space) => quotes ? quotes : ' ');
   const command = cleanAnswer.split(' ')[0];
   const args = cleanAnswer.split(`${command} `)[1];
