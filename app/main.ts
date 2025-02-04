@@ -7,11 +7,7 @@ import { singleQuoteRegex } from "./constants";
 const main = () => {
   return new Promise<void>((resolve) => {
     rl.question("$ ", async (answer) => {
-      const [command, ...args] = answer.replaceAll('  ', '').split(" ");
-
-      for (let arg of args) {
-        args[args.indexOf(arg)] = arg.replace(/'/g, '');
-      };
+      const [command, ...args] = [...answer.matchAll(/"([^"]*)"|'([^']*)'|(\S+)/g)].map(m => m[1] || m[2] || m[3]);
   
       if (commands[command]) {
         commands[command](args);
